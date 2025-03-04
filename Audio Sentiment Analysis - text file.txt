@@ -406,8 +406,13 @@ xTest = scaler_data.transform(xTest)
 print(xTrain.shape)
 print(xTest.shape)
 
-xTrain = np.expand_dims(xTrain,axis=2)
-xTest = np.expand_dims(xTest,axis=2)
+#xTrain = np.expand_dims(xTrain,axis=2)
+#xTest = np.expand_dims(xTest,axis=2)
+xTrain = xTrain.reshape(xTrain.shape[0],704, 1)
+xTest = np.expand_dims(xTest.shape[0], 704, 1)
+
+yTrain = to_categorical(yTrain)
+yTest = to_categorical(yTest)
 
 print(xTrain.shape)
 print(xTest.shape)
@@ -415,7 +420,8 @@ print(xTest.shape)
 
 Model Structure
 Model=Sequential()
-Model.add(Conv1D(256, kernel_size=5, strides=1, padding='same', activation='relu', input_shape=(xTrain.shape[1], 1)))
+#Model.add(Conv1D(256, kernel_size=5, strides=1, padding='same', activation='relu', input_shape=(xTrain.shape[1], 1)))
+Model.add(Conv1D(256, kernel_size=5, strides=1, padding='same', activation='relu', input_shape=(704, 1)))
 Model.add(MaxPooling1D(pool_size=5, strides = 2, padding = 'same'))
 
 Model.add(Conv1D(256, kernel_size=5, strides=1, padding='same', activation='relu'))
@@ -560,17 +566,17 @@ features = extract_features(audio_path)
 print("Feature Shape for Prediction:", features.shape)
 
 # Make prediction
-features = features.reshape(1,704)
-prediction = model.predict(features)
-print("Raw Prediction Output:", prediction)
+#features = features.reshape(1,704)
+#prediction = model.predict(features)
+#print("Raw Prediction Output:", prediction)
 
 # Get predicted label index
-predicted_label_index = np.argmax(prediction)
-print("Predicted Label Index:", predicted_label_index)
+#predicted_label_index = np.argmax(prediction)
+#print("Predicted Label Index:", predicted_label_index)
 
 # Decode sentiment using label encoder
-if isinstance(encoder_label, LabelEncoder):
-    sentiment = encoder_label.inverse_transform([predicted_label_index])[0]
-    print("Predicted Sentiment:", sentiment)
-else:
-    print("⚠️ Error: Label encoder is not a valid LabelEncoder!")
+#if isinstance(encoder_label, LabelEncoder):
+ #   sentiment = encoder_label.inverse_transform([predicted_label_index])[0]
+ #   print("Predicted Sentiment:", sentiment)
+#else:
+    #print("⚠️ Error: Label encoder is not a valid LabelEncoder!")
