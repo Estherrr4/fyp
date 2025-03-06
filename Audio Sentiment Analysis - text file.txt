@@ -443,6 +443,10 @@ print(yTest.shape)
 xTrain = scaler_data.fit_transform(xTrain)
 xTest = scaler_data.transform(xTest)
 
+with open("scaler_data.pkl", "wb") as f:
+    pickle.dump(scaler_data,f)
+print("Scaler saved as scaler_data.pkl")
+
 print(xTrain.shape)
 print(xTest.shape)
 
